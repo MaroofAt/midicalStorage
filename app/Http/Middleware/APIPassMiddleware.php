@@ -8,7 +8,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class JWTPassMiddleware
+class APIPassMiddleware
 {
     use ResponseTrait;
     /**
@@ -19,8 +19,8 @@ class JWTPassMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         try{
-            if(!isset($request['JWTPass'])) return $this->response(null , 400 , 'request does not have JWTPass variable');
-            if($request['JWTPass'] != env('JWT_PASS' , '')) return $this->response(null , 400 , 'JWTPass is wrong');
+            if(!isset($request['APIPass'])) return $this->response(null , 400 , 'request does not have APIPass variable');
+            if($request['APIPass'] != env('API_PASS' , '')) return $this->response(null , 400 , 'APIPass is wrong');
             return $next($request);
         }catch(Exception $e){
             return $this->exception_response($e);
