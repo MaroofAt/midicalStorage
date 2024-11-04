@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Tools\ResponseTrait;
 use Illuminate\Http\Request;
@@ -11,8 +13,23 @@ class AuthController extends Controller
 {
     use ResponseTrait;
 
-    public function register(){
-        // TODO.. (Ali)
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|between:2,100',
+            'email' => 'required|email|string|max:100|unique:users',
+            'password' => 'required|password|string|min:8'
+        ]);
+        if ($validator->fails()) {
+            return $this->response("Exception Error", 400, $validator->error());
+        }
+      
+        $user = User::create($validator->validated());
+        if(!$user){
+            return $this->response(null, 500 , "Can't Create User");
+        }
+      
+        return $this->response($user , 200 , "registered Successfully");
     }
 
     public function login(Request $request){
@@ -43,13 +60,8 @@ class AuthController extends Controller
         return $this->response(null , 200 , 'Logged out Successfully');
     }
 
-    public function me(){
-        // TODO.. (Ali)
-    }
-
-    public function refresh()
+    public function me()
     {
-        return $this->response(auth()->refresh());
+        return $this->response(auth('api')->user());
     }
-
 }
