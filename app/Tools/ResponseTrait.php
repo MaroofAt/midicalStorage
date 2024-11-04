@@ -12,7 +12,7 @@ trait ResponseTrait
             'status' => $status,
             'message' => $msg
         ];
-        return response($data_array , $status);
+        return response()->json($data_array , $status);
     }
     public function exception_response(Exception $e){
         return $this->response('Exception' , 400 , 'Exception Message: '.$e->getMessage());

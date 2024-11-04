@@ -8,7 +8,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class JWTchangelang
+class LangMiddleware
 {
     /**
      * Handle an incoming request.
