@@ -15,7 +15,10 @@ class MedicineController extends Controller
     public function strore(){
 
     }
-    public function (){
+    public function update(){
+
+    }
+    public function destroy(){
         
     }
 }
