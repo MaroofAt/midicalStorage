@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 
-use App\Models\User;
+
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Tools\ResponseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -15,14 +17,15 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        //return $this->response($request->get('phone_number') , 400 , strlen($request->get('phone_number')));
         $validator = Validator::make($request->all(), [
             'first_name' => ['required','between:3,30'],
             'last_name' => ['required','between:3,30'],
-            'phone_number' => ['required','numeric','size:10','unique:users'],
+            'phone_number' => ['required', 'digits:10' , 'numeric', 'unique:users'],
             'password' => ['required','min:8' , 'confirmed']
         ]);
         if ($validator->fails()) {
-            return $this->response("Exception Error", 400, $validator->error());
+            return $this->response("Validation Error", 400, $validator->errors());
         }
 
         $user = User::create($validator->validated());
@@ -36,7 +39,7 @@ class AuthController extends Controller
     public function login(Request $request){
         // validation
         $validator = Validator::make($request->all(),[
-            'phone_number' => ['required' , 'unique:users' , 'exists:users,phone_number'],
+            'phone_number' => ['required' , 'exists:users,phone_number'],
             'password' => ['required' , 'min:8'],
         ]);
         if($validator->fails()){
@@ -52,7 +55,7 @@ class AuthController extends Controller
         // response
         return $this->response([
             'access_token' => $token,
-            'expire_date' => auth('api')->factory()->getTTl(),
+            'expire_date' => Auth::factory()->getTTl(),
         ] , 200 , 'Logined Successfully');
     }
 
@@ -61,8 +64,10 @@ class AuthController extends Controller
         return $this->response(null , 200 , 'Logged out Successfully');
     }
 
-    public function me()
-    {
+    public function me(){
         return $this->response(auth('api')->user());
+    }
+    public function refresh(){
+        return $this->response(Auth::refresh());
     }
 }

@@ -12,7 +12,7 @@ class CategoryController extends Controller
     // By Marouf
     // Create Read Update Delete
     public function show(){
-        
+
     }
     public function store(){
 

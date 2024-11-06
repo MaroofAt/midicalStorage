@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('medicine_order', function (Blueprint $table) {
             $table->id('id');
-            $table->integar('quantity');
+            $table->integer('quantity');
             $table->foreignId(Medicine::class , 'medicine_id');
             $table->foreignId(Order::class , 'order_id');
             $table->timestamps();
