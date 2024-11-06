@@ -52,7 +52,7 @@ class AuthController extends Controller
         // response
         return $this->response([
             'access_token' => $token,
-            'expire_date' => auth('api')->factory()->getTTl(),
+            'expire_date' => auth('api')->Auth::factory()->getTTl(),
         ] , 200 , 'Logined Successfully');
     }
 

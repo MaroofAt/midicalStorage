@@ -19,11 +19,11 @@ class LangMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         try{
-            if(!isset($request->lang)) $this->response($request , 404 , "NOT FOUND");
-            if($request->lang == 'english'){
+            // if(!isset($request->lang)) $this->response($request , 404 , "NOT FOUND");
+
+            app()->setlocale('arabic');
+            if(isset($request->lang) && $request->lang == 'english'){
                 app()->setlocale('english');
-            }else{
-                app()->setlocale('arabic');
             }
             return $next($request);
         }catch(Exception $ex){
