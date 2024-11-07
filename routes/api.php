@@ -7,7 +7,6 @@ use App\Http\Middleware\APIPassMiddleware;
 use App\Http\Middleware\JWTPassMiddleware;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\MedicineController;
-use App\Models\Medicine;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -26,5 +25,6 @@ Route::middleware(APIPassMiddleware::class, LangMiddleware::class)->group(functi
         Route::post('/update', [MedicineController::class, 'update']);
         Route::post('/destroy', [MedicineController::class, 'destroy']);
         Route::post('/show_one_medicine', [MedicineController::class, 'show_one_medicine']);
+        Route::post('/show_by_category', [MedicineController::class, 'show_by_category']);
     });
 });

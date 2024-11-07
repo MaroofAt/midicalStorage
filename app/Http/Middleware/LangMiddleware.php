@@ -18,17 +18,16 @@ class LangMiddleware
     use Responsetrait;
     public function handle(Request $request, Closure $next): Response
     {
-        try{
+        try {
             // if(!isset($request->lang)) $this->response($request , 404 , "NOT FOUND");
 
             app()->setlocale('arabic');
-            if(isset($request->lang) && $request->lang == 'english'){
+            if (isset($request->lang) && $request->lang == 'english') {
                 app()->setlocale('english');
             }
             return $next($request);
-        }catch(Exception $ex){
-            return $this -> exception_response($ex);
+        } catch (Exception $ex) {
+            return $this->exception_response($ex);
         }
-
     }
 }
