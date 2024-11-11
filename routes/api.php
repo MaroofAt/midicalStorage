@@ -4,14 +4,11 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Middleware\APIPassMiddleware;
-use App\Http\Middleware\JWTPassMiddleware;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\MedicineController;
 use App\Http\Middleware\LangMiddleware;
-use App\Http\Middleware\LoginMiddleware;
 use App\Http\Middleware\TokenMiddleware;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
@@ -41,7 +38,7 @@ Route::middleware(APIPassMiddleware::class , LangMiddleware::class)->group(funct
         Route::post('/destroy' , [CategoryController::class , 'destroy']);
         Route::post('/get_one' , [CategoryController::class , 'get_one']);
     });
-  
+
   Route::prefix('medicine')->group(function () {
         Route::post('/show', [MedicineController::class, 'show']);
         Route::post('/store', [MedicineController::class, 'store']);
@@ -67,7 +64,7 @@ Route::middleware(APIPassMiddleware::class , LangMiddleware::class)->group(funct
         Route::post('/show_one', [UserController::class, 'show_one']);
         Route::post('/update', [UserController::class, 'update']);
     });
-  
+
 
     Route::prefix('order')->group(function(){
         Route::post('/show' , [OrderController::class , 'show']);
