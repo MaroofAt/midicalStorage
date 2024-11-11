@@ -27,7 +27,7 @@ class CategoryController extends Controller
         if($validator->fails()){
             return $this->response("Validation Error" , 400 , $validator->errors());
         }
-
+      
         $category = Category::create($validator->validated());
         if(!$category){
             return $this->response(null , 500 , "Can't Create Category");
@@ -68,7 +68,7 @@ class CategoryController extends Controller
         Category::destroy($request->id);
         return $this->response(null , 200 , 'Category Deleted Successfully');
     }
-
+  
     //// End CRUD ////
 
     public function get_one(Request $request){

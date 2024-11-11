@@ -42,6 +42,7 @@ class AuthController extends Controller
             'phone_number' => ['required' , 'exists:users,phone_number'],
             'password' => ['required' , 'min:8'],
         ]);
+
         if($validator->fails()){
             return $this->response($validator->errors() , 400 , 'Validation Error : Some Information is wrong');
         }
