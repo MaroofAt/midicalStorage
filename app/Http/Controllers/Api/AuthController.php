@@ -8,8 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Tools\ResponseTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -33,7 +33,7 @@ class AuthController extends Controller
             return $this->response(null, 500 , "Can't Create User");
         }
 
-        return $this->response($user , 200 , "registered Successfully");
+        return $this->response($user , 202 , "registered Successfully");
     }
 
     public function login(Request $request){
@@ -55,11 +55,12 @@ class AuthController extends Controller
         // response
         return $this->response([
             'access_token' => $token,
-            'expire_date' => Auth::factory()->getTTl(),
+            'expire_date' => JWTAuth::factory()->getTTl(),
         ] , 200 , 'Logined Successfully');
     }
 
     public function logout(){
+        JWTAuth::invalidate(JWTAuth::getToken());
         auth('api')->logout();
         return $this->response(null , 200 , 'Logged out Successfully');
     }
@@ -68,6 +69,6 @@ class AuthController extends Controller
         return $this->response(auth('api')->user());
     }
     public function refresh(){
-        return $this->response(Auth::refresh());
+        return $this->response(JWTAuth::refresh());
     }
 }

@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('medicine_order', function (Blueprint $table) {
             $table->id('id');
             $table->integer('quantity');
-            $table->foreignId(Medicine::class , 'medicine_id');
-            $table->foreignId(Order::class , 'order_id');
+            $table->foreignIdFor(Medicine::class , 'medicine_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignIdFor(Order::class , 'order_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -17,8 +17,7 @@ return new class extends Migration
             $table->id();
             $table->enum('status' , ['preparing' , 'sent' , 'arrived'])->default('preparing');
             $table->boolean('paid')->default(false);
-            $table->foreignIdFor(User::class,'user_id');
-            $table->foreignIdFor(Medicine::class,'medicine_id');
+            $table->foreignIdFor(User::class,'user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

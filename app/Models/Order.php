@@ -15,4 +15,12 @@ class Order extends Model
         'user_id',
         'medicine_id'
     ];
+
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+    public function medicines(){
+        return $this->belongsToMany(Medicine::class);
+    }
 }

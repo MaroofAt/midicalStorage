@@ -21,8 +21,8 @@ return new class extends Migration
             $table->integer('quantity');
             $table->text('info');
             $table->date('expiry_date');
-            $table->foreignIdFor(Company::class , 'company_id');
-            $table->foreignIdFor(Category::class,'category_id');
+            $table->foreignIdFor(Company::class , 'company_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignIdFor(Category::class,'category_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -20,7 +20,7 @@ class APIPassMiddleware
     {
         try{
             if(!isset($request['APIPass'])) return $this->response(null , 400 , 'request does not have APIPass variable');
-            if($request['APIPass'] != env('API_PASS' , '')) return $this->response(null , 400 , 'APIPass is wrong');
+            if($request['APIPass'] != env('API_PASS')) return $this->response(null , 400 , 'APIPass is wrong');
             return $next($request);
         }catch(Exception $e){
             return $this->exception_response($e);
