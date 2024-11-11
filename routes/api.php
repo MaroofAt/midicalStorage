@@ -46,4 +46,10 @@ Route::middleware(APIPassMiddleware::class, LangMiddleware::class)->group(functi
         Route::post('/show_one', [UserController::class, 'show_one']);
         Route::post('/update', [UserController::class, 'update']);
     });
+
+    
+
+
 });
+
+
