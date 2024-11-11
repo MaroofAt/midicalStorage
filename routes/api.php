@@ -2,10 +2,11 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Middleware\APIPassMiddleware;
 use App\Http\Middleware\JWTPassMiddleware;
 use App\Http\Middleware\LangMiddleware;
+use App\Http\Middleware\LoginMiddleware;
 use App\Http\Middleware\TokenMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +21,7 @@ Route::middleware(APIPassMiddleware::class , LangMiddleware::class)->group(funct
         Route::post('/register' , [AuthController::class, 'register']);
         Route::post('/login' , [AuthController::class, 'login']);
 
-        Route::middleware(TokenMiddleware::class , 'auth:api')->group(function(){
+        Route::middleware(TokenMiddleware::class)->group(function(){
             Route::post('/logout' , [AuthController::class, 'logout']);
             Route::post('/me' , [AuthController::class, 'me']);
             Route::post('/refresh' , [AuthController::class, 'refresh']);
