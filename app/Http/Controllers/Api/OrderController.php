@@ -32,29 +32,72 @@ class OrderController extends Controller
             return $this->response("Validation Error" , 400 , $validator->errors());
         }
 
-        $medicine = Medicine::find($request->medicine_id);
-        if(!$medicine){
-            return $this->response(null , 404 , "didn't find Medicine with that medicine_id");
-        }
-        if($request->quantity > $medicine->quantity){
+
+        if(!$this->insureMedicineQuantity($request->quantity , $request->medicine_id)){
             return $this->response(null , 400 , 'Order Can\'t be created, There is\'t enough medicines');
         }
 
-        $order = Order::create($validator->validated());
+        if(!$order = $this->createOrder($request->medicine_id , $validator->validated())){
+            return $this->response(null , 500 , 'Order Can\'t be created');
+        }
+
+        return $this->response($order , 201 , "Order Created Successfully");
+    }
+
+    public function store_full_order(Request $request){
+        $validator = Validator::make($request->user_id , [
+            'user_id' => ['required' , 'exists:users,id'],
+            'medicines.*.id' => ['required' , 'exists:medicines,id'],
+            'medicines.*.quantity' => ['required' , 'numeric'],
+        ]);
+        if($validator->fails()){
+            return $this->response("Validation Error" , 400 , $validator->errors());
+        }
+
+        foreach($request->medicines as $one){
+            if(!$this->insureMedicineQuantity($one->quantity , $one->id)){
+                return $this->response(null , 400 , $one->commercial_name . ": medicine quantity is less than required quantity");
+            }
+        }
+        foreach($request->medicines as $one){
+            $this->createOrder($one->id , [
+                "status" => "preparing",
+                "paid" => "false",
+                'quantity' => $one->quantity,
+                'user_id' => $request->user_id,
+                'medicine_id' => $one->id,
+            ]);
+        }
+
+        return $this->response(null , 201 , "Full Order Created Successfully");
+    }
+    private function insureMedicineQuantity($request_quantity , $medicine_id): bool {
+        $medicine = Medicine::find($medicine_id);
+        if($request_quantity > $medicine->quantity){
+            return false;
+        }
+        return true;
+    }
+    private function createOrder(int $medicine_id , $validated_data){
+
+        $medicine = Medicine::find($medicine_id);
+        if(!$medicine){
+            return $this->response(null , 404 , "didn't find Medicine with that medicine_id");
+        }
+
+
+        $order = Order::create($validated_data);
         if(!$order){
             return $this->response(null , 500 , "Can't Create Order");
         }
 
-        $order->medicines()->attach($medicine , ['quantity' => $request->quantity]);
-
-        return $this->response($order , 202 , "Order Created Successfully");
+        $order->medicines()->attach($medicine , ['quantity' => $validated_data->quantity]);
+        return $order;
     }
 
-    public function store_full_order(Request $request){
-        // TODO...
-    }
 
-    public function update_status_paid(Request $request){ //Have To be Tested (Not Tested Yet)
+
+    public function update_status_paid(Request $request){ // Have To be Tested (Not Tested Yet)
         $validator = Validator::make($request->all(), [
             'id' =>['required'],
             'status' => ['required' , 'in:inCart,preparing,sent,arrived'],
@@ -113,6 +156,7 @@ class OrderController extends Controller
 
         return $this->response($orders , 200 , 'Success');
     }
+
 
 
 }
