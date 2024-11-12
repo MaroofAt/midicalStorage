@@ -5,13 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Admin extends Model implements JWTSubject
+
+class Admin extends Authenticatable implements JWTSubject
 {
     /** @use HasFactory<\Database\Factories\AdminFactory> */
     use HasFactory;
 
-    protected $fillable = ['name' , 'email' , 'password'];
+    protected $fillable = ['name', 'email', 'password'];
 
     protected function casts(): array
     {
@@ -21,7 +23,7 @@ class Admin extends Model implements JWTSubject
         ];
     }
 
-     /**
+    /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed

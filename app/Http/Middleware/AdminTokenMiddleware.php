@@ -22,29 +22,30 @@ class AdminTokenMiddleware
     use ResponseTrait;
     public function handle(Request $request, Closure $next): Response
     {
-        $user = null;
+        // $user = null;
         try {
             $user = JWTAuth::parseToken()->authenticate();
         } catch (Exception $e) {
             if ($e instanceof TokenInvalidException) {
                 return $this->response(null, 401, "Invalid Token");
-            }else if($e instanceof TokenExpiredException){
+            } else if ($e instanceof TokenExpiredException) {
                 return $this->response(null, 401, "Expired Token");
-            }else {
+            }
+            else {
                 return $this->response(null, 401, "Autheraizition Token Not Found");
             }
-        }catch(Throwable $e){
+        } catch (Throwable $e) {
             if ($e instanceof TokenInvalidException) {
                 return $this->response(null, 401, "Invalid Token");
-            }else if($e instanceof TokenExpiredException){
+            } else if ($e instanceof TokenExpiredException) {
                 return $this->response(null, 401, "Expired Token");
-            }else {
+            } else {
                 return $this->response(null, 401, "Autheraizition Token Not Found");
             }
         }
-        if(! $user ){
-            return $this->response(null , 401 , "Autheraizition Token Not Found");
-        }
+        // if(! $user ){
+        //     return $this->response(null , 401 , "Autheraizition Token Not Found");
+        // }
         return $next($request);
     }
 }

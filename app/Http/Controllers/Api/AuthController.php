@@ -72,4 +72,7 @@ class AuthController extends Controller
     public function refresh(){
         return $this->response(JWTAuth::refresh());
     }
+
+    
+
 }
