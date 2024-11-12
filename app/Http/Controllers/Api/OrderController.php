@@ -48,27 +48,7 @@ class OrderController extends Controller
     }
 
     public function store_full_order(Request $request){
-        // $validator = Validator::make($request->all() , [
-        //     'user_id' => ['required' , 'exists:users,id'],
-        //     'medicine_id' => ['required' , 'exists:medicines,id'],
-        // ]);
-        // if($validator->fails()){
-        //     return $this->response("Validation Error" , 400 , $validator->errors());
-        // }
 
-        // $medicine = Medicine::find($request->medicine_id);
-        // if(!$medicine){
-        //     return $this->response(null , 404 , "didn't find Medicine with that medicine_id");
-        // }
-
-        // $order = Order::create($validator->validated());
-        // if(!$order){
-        //     return $this->response(null , 500 , "Can't Create Order");
-        // }
-
-        // $order->medicines()->attach($medicine , ['quantity' => $request->quantity]);
-
-        // return $this->response($order , 202 , "Order Created Successfully");
     }
 
     public function update_status_paid(Request $request){
