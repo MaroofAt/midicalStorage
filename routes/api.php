@@ -7,12 +7,18 @@ use App\Http\Middleware\APIPassMiddleware;
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AdminAuthController;
+
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Middleware\AdminTokenMiddleware;
 use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\MedicineController;
+use App\Http\Middleware\LangMiddleware;
+use App\Http\Middleware\TokenMiddleware;
+use Illuminate\Support\Facades\Route;
+
+
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -53,6 +59,7 @@ Route::middleware(APIPassMiddleware::class, LangMiddleware::class)->group(functi
         Route::post('/destroy', [CategoryController::class, 'destroy']);
         Route::post('/get_one', [CategoryController::class, 'get_one']);
     });
+
 
     Route::prefix('medicine')->group(function () {
         Route::post('/show', [MedicineController::class, 'show']);
