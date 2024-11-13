@@ -16,6 +16,8 @@ class Medicine extends Model
         'price',
         'quantity',
         'info',
+        'company_id',
+        'category_id',
         'expiry_date'
     ];
 

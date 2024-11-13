@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->enum('status' , ['inCart','preparing' , 'sent' , 'arrived'])->default('preparing');
+            $table->enum('status' , ['preparing' , 'sent' , 'arrived'])->default('preparing');
             $table->boolean('paid')->default(false);
             $table->foreignIdFor(User::class,'user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

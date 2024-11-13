@@ -23,9 +23,9 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'first_name' => fake()->name(),
-            'last_name'=>fake()->name(),
-            'phone_number'=>'09'.fake()->number_between(10000000,99999999),
+            'first_name' => fake()->firstName(),
+            'last_name'=>fake()->lastName(),
+            'phone_number'=>'09'.rand(10000000,99999999),
             'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
         ];

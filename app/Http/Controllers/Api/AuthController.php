@@ -33,7 +33,7 @@ class AuthController extends Controller
             return $this->response(null, 500 , "Can't Create User");
         }
 
-        return $this->response($user , 202 , "registered Successfully");
+        return $this->response($user , 201 , "registered Successfully");
     }
 
     public function login(Request $request){
@@ -73,6 +73,6 @@ class AuthController extends Controller
         return $this->response(JWTAuth::refresh());
     }
 
-    
+
 
 }

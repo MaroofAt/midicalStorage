@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
+use App\Models\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,10 +21,12 @@ class MedicineFactory extends Factory
         return [
             'scientific_name' => fake()->name(),
             'commercial_name' => fake()->name(),
-            'price' => fake()->numberBetween(10 , 10000),
-            'quantity' => fake()->numberBetween(1 , 3000),
+            'price' => rand(10 , 10000),
+            'quantity' => rand(1 , 3000),
             'info' => fake()->text(),
-            'expiry_date' => fake()->date()
+            'expiry_date' => fake()->date(),
+            'company_id'   =>  Company::factory(),
+            'category_id'   =>  Category::factory()
         ];
     }
 }

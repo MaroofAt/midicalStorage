@@ -14,9 +14,7 @@ use App\Http\Middleware\AdminTokenMiddleware;
 use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\MedicineController;
-use App\Http\Middleware\LangMiddleware;
-use App\Http\Middleware\TokenMiddleware;
-use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -35,18 +33,18 @@ Route::middleware(APIPassMiddleware::class, LangMiddleware::class)->group(functi
             Route::post('/me', [AuthController::class, 'me']);
             Route::post('/refresh', [AuthController::class, 'refresh']);
         });
-    });
 
 
-    Route::prefix('auth/admin')->group(function () {
-        Route::post('/register',  [AdminAuthController::class, 'register']);
-        Route::post('/login', [AdminAuthController::class, 'login']);
+        Route::prefix('admin')->group(function () {
+            Route::post('/register',  [AdminAuthController::class, 'register']);
+            Route::post('/login', [AdminAuthController::class, 'login']);
 
-        Route::middleware(AdminTokenMiddleware::class . ':api_admin')->group(function () {
-            Route::post('/logout', [AdminAuthController::class, 'logout']);
-            Route::post('/me', [AdminAuthController::class, 'me']);
-            Route::post('/refresh', [AdminAuthController::class, 'refresh']);
+            Route::middleware(AdminTokenMiddleware::class . ':api_admin')->group(function () {
+                Route::post('/logout', [AdminAuthController::class, 'logout']);
+                Route::post('/me', [AdminAuthController::class, 'me']);
+                Route::post('/refresh', [AdminAuthController::class, 'refresh']);
 
+            });
         });
     });
 
@@ -60,6 +58,13 @@ Route::middleware(APIPassMiddleware::class, LangMiddleware::class)->group(functi
         Route::post('/get_one', [CategoryController::class, 'get_one']);
     });
 
+    Route::prefix('company')->group(function () {
+        Route::post('/show', [CompanyController::class, 'show']);
+        Route::post('/store', [CompanyController::class, 'store']);
+        Route::post('/update', [CompanyController::class, 'update']);
+        Route::post('/destroy', [CompanyController::class, 'destroy']);
+        Route::post('/get_one', [CompanyController::class, 'get_one']);
+    });
 
     Route::prefix('medicine')->group(function () {
         Route::post('/show', [MedicineController::class, 'show']);
@@ -70,14 +75,6 @@ Route::middleware(APIPassMiddleware::class, LangMiddleware::class)->group(functi
         Route::post('/show_by_category', [MedicineController::class, 'show_by_category']);
     });
 
-
-    Route::prefix('company')->group(function () {
-        Route::post('/show', [CompanyController::class, 'show']);
-        Route::post('/store', [CompanyController::class, 'store']);
-        Route::post('/update', [CompanyController::class, 'update']);
-        Route::post('/destroy', [CompanyController::class, 'destroy']);
-        Route::post('/get_one', [CompanyController::class, 'get_one']);
-    });
 
 
 
@@ -97,3 +94,5 @@ Route::middleware(APIPassMiddleware::class, LangMiddleware::class)->group(functi
 
     });
 });
+
+
